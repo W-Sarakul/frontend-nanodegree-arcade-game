@@ -9,7 +9,7 @@
  * drawn but that is not the case. What's really happening is the entire "scene"
  * is being drawn over and over, presenting the illusion of animation.
  *
- * This engine makes the canvas' context (ctx) object globally available to make 
+ * This engine makes the canvas' context (ctx) object globally available to make
  * writing app.js a little simpler to work with.
  */
 
@@ -22,11 +22,21 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
+        medal = doc.querySelector(".fa-medal"),
+        life = doc.querySelector("#heart"),
+        blueGem = doc.querySelector("#blue-gem"),
+        greenGem = doc.querySelector("#green-gem"),
+        orangeGem = doc.querySelector("#orange-gem"),
+        congrat = doc.querySelector(".congrat"),
+        requestID,
         lastTime;
 
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+
+    const replay = doc.querySelector("#replay");
+    const modal = doc.querySelector(".modal");
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -40,7 +50,6 @@ var Engine = (function(global) {
          */
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
-
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
@@ -55,7 +64,38 @@ var Engine = (function(global) {
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+
+        // condition to stop the game
+        if (player.win === true) {
+          congrat.innerHTML = "YOU WIN!";
+          medal.style.display = 'block';
+          switch (player.medal) {
+            case 'gold':
+              medal.style.color = '#ebca14';
+              break;
+            case 'silver':
+              medal.style.color = '#c0c0c0';
+              break;
+            case 'bronze':
+              medal.style.color = '#cd7f32';
+              break;
+          }
+          modal.classList.toggle("modal-display");
+          stop(requestID);
+          return;
+        } else if (player.win === 'gameover') {
+          congrat.innerHTML = "GAME OVER!";
+          medal.style.display = 'none';
+          modal.classList.toggle("modal-display");
+          stop(requestID);
+          return;
+        }
+        requestID = win.requestAnimationFrame(main);
+    }
+
+    // function to stop the game
+    function stop(id) {
+      cancelAnimationFrame(id);
     }
 
     /* This function does some initial setup that should only occur once,
@@ -79,7 +119,11 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        // update score board
+        life.innerHTML = player.life;
+        blueGem.innerHTML = player.colorGem.blue;
+        greenGem.innerHTML = player.colorGem.green;
+        orangeGem.innerHTML = player.colorGem.orange;
     }
 
     /* This is called by the update function and loops through all of the
@@ -93,7 +137,13 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+
+        allGems.forEach(function(gem) {
+          gem.update(dt);
+        });
+
         player.update();
+
     }
 
     /* This function initially draws the "game level", it will then call
@@ -117,7 +167,7 @@ var Engine = (function(global) {
             numRows = 6,
             numCols = 5,
             row, col;
-        
+
         // Before drawing, clear existing canvas
         ctx.clearRect(0,0,canvas.width,canvas.height)
 
@@ -134,7 +184,11 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                if ((row === 5) && (col === 4)) {
+                  ctx.drawImage(Resources.get('images/Selector.png'), col * 101, row * 83);
+                } else {
+                  ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                }
             }
         }
 
@@ -153,7 +207,12 @@ var Engine = (function(global) {
             enemy.render();
         });
 
+        allGems.forEach(function(gem) {
+          gem.render();
+        });
+
         player.render();
+
     }
 
     /* This function does nothing but it could have been a good place to
@@ -164,6 +223,17 @@ var Engine = (function(global) {
         // noop
     }
 
+    // add event listener to replay button
+    replay.addEventListener("click", function(){
+      modal.classList.toggle("modal-display");
+      player.resetPlayer();
+      allGems.forEach(function(gem) {
+        gem.resetGem();
+      });
+      // reset collected gem
+      requestID = win.requestAnimationFrame(main);
+    });
+
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
@@ -173,7 +243,16 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Gem Blue.png',
+        'images/Gem Orange.png',
+        'images/Gem Green.png',
+        'images/Selector.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 

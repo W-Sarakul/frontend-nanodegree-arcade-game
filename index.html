@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Effective JavaScript: Frogger</title>
+    <link href="https://fonts.googleapis.com/css?family=Mali:400,700" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 </head>
 <body>
+  <div class="modal">
+    <div class="modal-content">
+      <p class="congrat">You Win!</p>
+      <p><i class="fas fa-medal"></i></p>
+      <button type="button" name="button" id="replay">Replay</button>
+    </div>
+  </div>
+  <div class="game-board">
+    <p class="score">Score</p>
+    <div class="gem-board">
+      <p class="sub-head">Collected Gem</p>
+      <p class="gem">Green Gem: <span id="green-gem"></span> <i class="fas fa-gem green"></i></p>
+      <p class="gem">Blue Gem: <span id="blue-gem"></span> <i class="fas fa-gem blue"></i></p>
+      <p class="gem">orange Gem: <span id="orange-gem"></span> <i class="fas fa-gem orange"></i></p>
+    </div>
+    <div class="life-board">
+      <p id="life">You have: <span id="heart"></span> <i class="fas fa-heart"></i></p>
+    </div>
+  </div>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>

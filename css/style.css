@@ -1,3 +1,97 @@
 body {
-    text-align: center;
+  text-align: center;
+  font-family: 'Mali', cursive;
+  font-size: 1.2em;
+  /* display: flex;
+  flex-direction: row-reverse; */
+}
+
+/* Modal style */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  overflow: auto;
+  color: #54494c;
+  text-align: center;
+}
+
+.congrat {
+  color: #e55e8b;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.modal-content {
+    background-color: #f5f9ef;
+    border-radius: 10px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.modal-display {
+  display: block;
+}
+
+#replay {
+  font-family: 'Mali', cursive;
+  font-size: 1.2em;
+  background-color: #ccf9ed;
+  border-radius: 2px solid #b3e5d8;
+  border-radius: 5px;
+}
+
+.fa-medal {
+  font-size: 1.3em;
+}
+
+/* Game board */
+.game-board {
+  width: 300px;
+  height: 350px;
+  border: 4px dotted #f4d29a;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px;
+  position: fixed;
+  top: 1em;
+  right: 1em;
+}
+
+.gem-board,
+ .life-board {
+  margin: 0 auto 8px auto;
+  border: 2px dotted #fce9c9;
+  border-radius: 5px;
+}
+
+.score {
+  margin: 8px auto;
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+.blue {
+  color: #6786f7;
+}
+
+.green {
+  color: #26ce21;
+}
+
+.orange {
+  color: #f48342;
+}
+
+.fa-heart {
+  color: #e81481;
 }
