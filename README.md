@@ -34,5 +34,6 @@ Cross the road to the river to win the game.
 ## Author ##
 * Wassakorn Sarakul
 
-Note
-* This project is part of frontend-nanodegree.
+## Note ##
+* Because I did not know how to use git and git hub when I worked on this project, this project has few commits.
+* This project is part of Udaacity's front-end nanodegree.
